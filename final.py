@@ -61,7 +61,8 @@ def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordin
             'rating': engineer_rating,
             'output': perform_sentiment_analysis(engineer_review)
         },
-        'coordinator_feedback': {
+        'coordinator_feedback':  {
+            'complaint_id': complaint_id,
             'feedback': coordinator_review,
             'rating': coordinator_rating,
             'output': perform_sentiment_analysis(coordinator_review)
