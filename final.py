@@ -3,7 +3,7 @@ import requests
 from textblob import TextBlob
 
 # Function to submit feedback and handle API request
-def submit_feedback(engineer_review, coordinator_review):
+def submit_feedback(complaint_id, engineer_review, coordinator_review):
     # Perform sentiment analysis for engineer review
     engineer_sentiment = perform_sentiment_analysis(engineer_review)
 
@@ -15,7 +15,7 @@ def submit_feedback(engineer_review, coordinator_review):
     coordinator_rating = derive_rating(coordinator_sentiment)
 
     # Save the feedback to the API database
-    payload = save_feedback_to_api(engineer_review, engineer_rating, coordinator_review, coordinator_rating, engineer_sentiment, coordinator_sentiment)
+    payload = save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordinator_review, coordinator_rating, engineer_sentiment, coordinator_sentiment)
     
     # Display sentiment analysis results
     st.header('Sentiment Analysis Results:')
@@ -51,10 +51,11 @@ def derive_rating(sentiment_score):
         return 5.0
 
 # Function to save feedback data to API
-def save_feedback_to_api(engineer_review, engineer_rating, coordinator_review, coordinator_rating, engineer_sentiment, coordinator_sentiment):
+def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordinator_review, coordinator_rating, engineer_sentiment, coordinator_sentiment):
     # Feedback data including complaint ID
     feedback_data = {
         'apiKey': 'RnVqaXlhbWEgUG93ZXIgU3lzdGVtcyBQdnQuIEx0ZC4=.$2y$10$sd9eji2d1mc8i1nd1xsalefYiroiLa46/X0U9ihoGeOU7FaWDg30a.',
+        'complaint_id': complaint_id,
         'engineer_feedback': {
             'feedback': engineer_review,
             'rating': engineer_rating,
@@ -84,7 +85,7 @@ def save_feedback_to_api(engineer_review, engineer_rating, coordinator_review, c
 # Style the feedback form
 def style_feedback_form():
     # Add logo with increased size
-    logo_image = "https://github.com/bunny2ritik/Utl-feedback/blob/main/newlogo.png?raw=true"  # Path to your logo image
+    logo_image = "/Users/ritikraj/Downloads/newlogo.png"  # Path to your logo image
     st.image(logo_image, use_column_width=True, width=400)
 
     # Set title for service engineer section
@@ -100,6 +101,10 @@ def style_feedback_form():
     coordinator_review = st.text_area('Write your feedback for the Service Executive Coordinator here:')
 
     return engineer_review, coordinator_review
+
+# Read the complaint ID from URL query parameters
+query_params = st.experimental_get_query_params()
+complaint_id = query_params.get('complaint_id', [''])[0]
 
 # Style the feedback form
 engineer_review, coordinator_review = style_feedback_form()
@@ -123,8 +128,12 @@ submit_button = st.button('Submit')
 # Submit feedback and handle API request
 if submit_button:
     # Submit feedback and handle API request
-    payload = submit_feedback(engineer_review, coordinator_review)
-    
-    # Show payload
-    st.subheader("Payload:")
-    st.json(payload)
+    if complaint_id:
+        payload = submit_feedback(complaint_id, engineer_review, coordinator_review)
+        
+        # Show payload
+        st.subheader("Payload:")
+        st.json(payload)
+    else:
+        st.error('Complaint ID not found in URL.')
+
