@@ -84,7 +84,7 @@ def save_feedback_to_api(engineer_review, engineer_rating, coordinator_review, c
 # Style the feedback form
 def style_feedback_form():
     # Add logo with increased size
-    logo_image = "/Users/ritikraj/Downloads/newlogo.png"  # Path to your logo image
+    logo_image = "https://github.com/bunny2ritik/Utl-feedback/blob/main/newlogo.png?raw=true"  # Path to your logo image
     st.image(logo_image, use_column_width=True, width=400)
 
     # Set title for service engineer section
