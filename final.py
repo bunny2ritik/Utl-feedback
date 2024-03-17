@@ -86,7 +86,7 @@ def style_feedback_form(complaint_id):
     st.image(logo_image, use_column_width=True, width=400)
     
     # Display the title for the complaint ID
-    st.markdown(f"<h3 style='text-align: center;'>Feedback for Complaint ID : {complaint_id}</h3>", unsafe_allow_html=True)
+    st.markdown(f"<h3 style='text-align: center;'>Feedback for Complaint ID {complaint_id}</h3>", unsafe_allow_html=True)
 
     # Set title for service engineer section
     st.header('Service Engineer ')
@@ -130,3 +130,4 @@ if submit_button:
     # Submit feedback and handle API request
     if complaint_id:
         submit_feedback(complaint_id, engineer_review, coordinator_review)
+
