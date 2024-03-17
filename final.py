@@ -3,7 +3,7 @@ import requests
 from textblob import TextBlob
 
 # Function to submit feedback and handle API request
-def submit_feedback(complaint_id, engineer_review, coordinator_review):
+def submit_feedback(engineer_review, coordinator_review):
     # Perform sentiment analysis for engineer review
     engineer_sentiment = perform_sentiment_analysis(engineer_review)
 
@@ -15,13 +15,13 @@ def submit_feedback(complaint_id, engineer_review, coordinator_review):
     coordinator_rating = derive_rating(coordinator_sentiment)
 
     # Save the feedback to the API database
-    payload = save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordinator_review, coordinator_rating, engineer_sentiment, coordinator_sentiment)
+    payload = save_feedback_to_api(engineer_review, engineer_rating, coordinator_review, coordinator_rating, engineer_sentiment, coordinator_sentiment)
     
     # Display sentiment analysis results
     st.header('Sentiment Analysis Results:')
     st.write('Service Engineer Review Sentiment:', engineer_sentiment)
     st.write('Service Executive Coordinator Review Sentiment:', coordinator_sentiment)
-
+    
     return payload
 
 # Function to perform sentiment analysis using TextBlob
@@ -51,11 +51,10 @@ def derive_rating(sentiment_score):
         return 5.0
 
 # Function to save feedback data to API
-def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordinator_review, coordinator_rating, engineer_sentiment, coordinator_sentiment):
+def save_feedback_to_api(engineer_review, engineer_rating, coordinator_review, coordinator_rating, engineer_sentiment, coordinator_sentiment):
     # Feedback data including complaint ID
     feedback_data = {
         'apiKey': 'RnVqaXlhbWEgUG93ZXIgU3lzdGVtcyBQdnQuIEx0ZC4=.$2y$10$sd9eji2d1mc8i1nd1xsalefYiroiLa46/X0U9ihoGeOU7FaWDg30a.',
-        'complaint_id': complaint_id,
         'engineer_feedback': {
             'feedback': engineer_review,
             'rating': engineer_rating,
@@ -79,14 +78,13 @@ def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordin
         st.success('Feedback submitted successfully!')
     else:
         st.error('Failed to submit feedback. Please try again later.')
-
-    # Return the payload
+    
     return feedback_data
         
 # Style the feedback form
 def style_feedback_form():
     # Add logo with increased size
-    logo_image = "https://github.com/bunny2ritik/Utl-feedback/blob/main/newlogo.png?raw=true"  # Path to your logo image
+    logo_image = "/Users/ritikraj/Downloads/newlogo.png"  # Path to your logo image
     st.image(logo_image, use_column_width=True, width=400)
 
     # Set title for service engineer section
@@ -101,13 +99,10 @@ def style_feedback_form():
     # Add text area for coordinator feedback
     coordinator_review = st.text_area('Write your feedback for the Service Executive Coordinator here:')
 
-    # Add text input for complaint ID
-    complaint_id = st.text_input('Enter Complaint ID (if available):')
-
-    return complaint_id, engineer_review, coordinator_review
+    return engineer_review, coordinator_review
 
 # Style the feedback form
-complaint_id, engineer_review, coordinator_review = style_feedback_form()
+engineer_review, coordinator_review = style_feedback_form()
 
 # Add a submit button with custom style
 submit_button_style = """
@@ -128,10 +123,8 @@ submit_button = st.button('Submit')
 # Submit feedback and handle API request
 if submit_button:
     # Submit feedback and handle API request
-    if complaint_id:
-        payload = submit_feedback(complaint_id, engineer_review, coordinator_review)
-        # Show payload
-        st.subheader("Payload:")
-        st.json(payload)
-    else:
-        st.error('Please enter a Complaint ID.')
+    payload = submit_feedback(engineer_review, coordinator_review)
+    
+    # Show payload
+    st.subheader("Payload:")
+    st.json(payload)
