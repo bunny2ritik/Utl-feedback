@@ -66,11 +66,16 @@ def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordin
         }
     }
 
+    # Define payload for the API request
+    payload = {
+        'data': feedback_data  # Include the feedback data in the payload
+    }
+
     # API endpoint
     api_url = 'https://staging.utlsolar.net/tracker/production/public/utlmtlapis/getCustomerFeedback'
 
-    # Make a POST request to the API endpoint
-    response = requests.post(api_url, json=feedback_data)
+    # Make a POST request to the API endpoint with the payload
+    response = requests.post(api_url, json=payload)
 
     # Check if the request was successful
     if response.status_code == 200:
@@ -81,7 +86,7 @@ def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordin
 # Style the feedback form
 def style_feedback_form():
     # Add logo with increased size
-    logo_image = "https://github.com/bunny2ritik/Utl-feedback/blob/main/newlogo.png?raw=true"  # Path to your logo image
+    logo_image = "/Users/ritikraj/Downloads/newlogo.png"  # Path to your logo image
     st.image(logo_image, use_column_width=True, width=400)
 
     # Set title for service engineer section
