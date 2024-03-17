@@ -89,7 +89,7 @@ def style_feedback_form():
     st.image(logo_image, use_column_width=True, width=400)
     
     # Display the title for the complaint ID
-    st.title(f"Feedback for Complaint ID = {complaint_id}")
+    st.title(f"Feedback for Complaint ID : {complaint_id}")
 
     # Set title for service engineer section
     st.header('Service Engineer ')
