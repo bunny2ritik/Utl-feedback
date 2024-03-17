@@ -103,7 +103,7 @@ def style_feedback_form():
     return engineer_review, coordinator_review
 
 # Read the complaint ID from URL query parameters
-complaint_id = st.experimental_get_query_params().get('complaint_id', [''])[0]
+complaint_id = st.url_query_params().get('complaint_id', '')
 
 # Style the feedback form
 engineer_review, coordinator_review = style_feedback_form()
