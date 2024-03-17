@@ -15,16 +15,12 @@ def submit_feedback(complaint_id, engineer_review, coordinator_review):
     coordinator_rating = derive_rating(coordinator_sentiment)
 
     # Save the feedback to the API database
-    payload = save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordinator_review, coordinator_rating, engineer_sentiment, coordinator_sentiment)
+    save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordinator_review, coordinator_rating, engineer_sentiment, coordinator_sentiment)
     
     # Display sentiment analysis results
     st.header('Sentiment Analysis Results:')
     st.write('Service Engineer Review Sentiment:', engineer_sentiment)
     st.write('Service Executive Coordinator Review Sentiment:', coordinator_sentiment)
-    
-    # Display payload
-    st.header('Feedback Payload:')
-    st.write(payload)
 
 # Function to perform sentiment analysis using TextBlob
 def perform_sentiment_analysis(review_text):
@@ -82,8 +78,6 @@ def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordin
         st.success('Feedback submitted successfully!')
     else:
         st.error('Failed to submit feedback. Please try again later.')
-    
-    return feedback_data
 
 # Style the feedback form
 def style_feedback_form(complaint_id):
