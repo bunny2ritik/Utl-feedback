@@ -87,6 +87,9 @@ def style_feedback_form():
     # Add logo with increased size
     logo_image = "https://github.com/bunny2ritik/Utl-feedback/blob/main/newlogo.png?raw=true"  # Path to your logo image
     st.image(logo_image, use_column_width=True, width=400)
+    
+    # Display the title for the complaint ID
+    st.title(f"Feedback for Complaint ID = {complaint_id}")
 
     # Set title for service engineer section
     st.header('Service Engineer ')
@@ -129,4 +132,4 @@ submit_button = st.button('Submit')
 if submit_button:
     # Submit feedback and handle API request
     if complaint_id:
-        payload = submit_feedback
+        payload = submit_feedback(complaint_id, engineer_review, coordinator_review)
