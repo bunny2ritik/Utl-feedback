@@ -79,6 +79,9 @@ def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordin
     else:
         st.error('Failed to submit feedback. Please try again later.')
 
+# Read the complaint ID from URL query parameters
+complaint_id = st.experimental_get_query_params().get('complaint_id', [''])[0]
+
 # Style the feedback form
 def style_feedback_form(complaint_id):
     # Add logo with increased size
@@ -86,7 +89,7 @@ def style_feedback_form(complaint_id):
     st.image(logo_image, use_column_width=True, width=400)
     
     # Display the title for the complaint ID without quotation marks
-    st.markdown(f"<h3 style='text-align: center;'>Feedback for Complaint ID : {complaint_id[:-1]}</h3>", unsafe_allow_html=True)
+    st.markdown(f"<h3 style='text-align: center;'>Feedback for Complaint ID : {complaint_id}</h3>", unsafe_allow_html=True)
 
     # Set title for service engineer section
     st.header('Service Engineer ')
@@ -101,10 +104,6 @@ def style_feedback_form(complaint_id):
     coordinator_review = st.text_area('Write your feedback for the Service Executive Coordinator here:')
 
     return engineer_review, coordinator_review
-
-# Read the complaint ID from URL query parameters
-query_params = st.experimental_get_query_params()
-complaint_id = query_params.get('complaint_id', [''])[0]
 
 # Style the feedback form
 engineer_review, coordinator_review = style_feedback_form(complaint_id)
