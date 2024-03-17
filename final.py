@@ -62,7 +62,6 @@ def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordin
             'output': perform_sentiment_analysis(engineer_review)
         },
         'coordinator_feedback': {
-            'complaint_id': complaint_id,
             'feedback': coordinator_review,
             'rating': coordinator_rating,
             'output': perform_sentiment_analysis(coordinator_review)
@@ -86,7 +85,7 @@ def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordin
 # Style the feedback form
 def style_feedback_form():
     # Add logo with increased size
-    logo_image = "https://github.com/bunny2ritik/Utl-feedback/blob/main/newlogo.png?raw=true"  # Path to your logo image
+    logo_image = "/Users/ritikraj/Downloads/newlogo.png"  # Path to your logo image
     st.image(logo_image, use_column_width=True, width=400)
 
     # Set title for service engineer section
@@ -130,11 +129,4 @@ submit_button = st.button('Submit')
 if submit_button:
     # Submit feedback and handle API request
     if complaint_id:
-        payload = submit_feedback(complaint_id, engineer_review, coordinator_review)
-        
-        # Show payload
-        st.subheader("Payload:")
-        st.json(payload)
-    else:
-        st.error('Complaint ID not found in URL.')
-
+        payload = submit_feedback
