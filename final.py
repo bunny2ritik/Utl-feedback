@@ -80,7 +80,7 @@ def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordin
         st.error('Failed to submit feedback. Please try again later.')
         
 # Style the feedback form
-def style_feedback_form():
+def style_feedback_form(complaint_id):
     # Add logo with increased size
     logo_image = "https://github.com/bunny2ritik/Utl-feedback/blob/main/newlogo.png?raw=true"  # Path to your logo image
     st.image(logo_image, use_column_width=True, width=400)
@@ -103,10 +103,11 @@ def style_feedback_form():
     return engineer_review, coordinator_review
 
 # Read the complaint ID from URL query parameters
-complaint_id = st.url_query_params().get('complaint_id', '')
+query_params = st.experimental_get_query_params()
+complaint_id = query_params.get('complaint_id', [''])[0]
 
 # Style the feedback form
-engineer_review, coordinator_review = style_feedback_form()
+engineer_review, coordinator_review = style_feedback_form(complaint_id)
 
 # Add a submit button with custom style
 submit_button_style = """
