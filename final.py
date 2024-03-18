@@ -84,9 +84,10 @@ def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordin
 query_params = st.experimental_get_query_params()
 complaint_id_encoded = query_params.get('complaint_id', [''])[0]
 
-# Decodethe complaint ID from base64
+# Decode the complaint ID from base64
 try:
     complaint_id_decoded = base64.b64decode(complaint_id_encoded).decode('utf-8')
+    complaint_id_display = "complaint_id=" + complaint_id_decoded
 except Exception as e:
     st.error("Error decoding complaint ID: {}".format(e))
     st.stop()
@@ -98,7 +99,7 @@ def style_feedback_form(complaint_id):
     st.image(logo_image, use_column_width=True, width=400)
     
     # Display the title for the complaint ID without quotation marks
-    st.markdown(f"<h3 style='text-align: center;'>Feedback for Complaint ID : {complaint_id}</h3>", unsafe_allow_html=True)
+    st.markdown(f"<h3 style='text-align: center;'>Feedback for {complaint_id}</h3>", unsafe_allow_html=True)
 
     # Set title for service engineer section
     st.header('Service Engineer ')
@@ -115,7 +116,7 @@ def style_feedback_form(complaint_id):
     return engineer_review, coordinator_review
 
 # Style the feedback form
-engineer_review, coordinator_review = style_feedback_form(complaint_id_decoded)
+engineer_review, coordinator_review = style_feedback_form(complaint_id_display)
 
 # Add a submit button with custom style
 submit_button_style = """
@@ -138,6 +139,7 @@ if submit_button:
     # Submit feedback and handle API request
     if complaint_id_decoded:
         submit_feedback(complaint_id_decoded, engineer_review, coordinator_review)
+
 
 
 
