@@ -1,8 +1,6 @@
 import streamlit as st
 import requests
-import base64
 from textblob import TextBlob
-import binascii
 
 # Function to submit feedback and handle API request
 def submit_feedback(complaint_id, engineer_review, coordinator_review):
@@ -81,25 +79,11 @@ def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordin
     else:
         st.error('Failed to submit feedback. Please try again later.')
 
-# Read the complaint ID from URL query parameters
-complaint_id_base64 = st.experimental_get_query_params().get('complaint_id', [''])[0]
-
-# Decode the Base64 encoded complaint ID
-try:
-    complaint_id = base64.b64decode(complaint_id_base64).decode('utf-8')
-    print("Decoded Complaint ID:", complaint_id)  # Debugging statement
-except (TypeError, UnicodeDecodeError, binascii.Error) as e:
-    st.error("Invalid complaint ID.")
+# Get complaint ID from user input
+complaint_id = st.text_input("Enter your Complaint ID:")
 
 # Style the feedback form
-def style_feedback_form(complaint_id):
-    # Add logo with increased size
-    logo_image = "https://github.com/bunny2ritik/Utl-feedback/blob/main/newlogo.png?raw=true"  # Path to your logo image
-    st.image(logo_image, use_column_width=True, width=400)
-    
-    # Display the title for the complaint ID without quotation marks
-    st.markdown(f"<h3 style='text-align: center;'>Feedback for Complaint ID : {complaint_id}</h3>", unsafe_allow_html=True)
-
+def style_feedback_form():
     # Set title for service engineer section
     st.header('Service Engineer ')
 
@@ -115,7 +99,7 @@ def style_feedback_form(complaint_id):
     return engineer_review, coordinator_review
 
 # Style the feedback form
-engineer_review, coordinator_review = style_feedback_form(complaint_id)
+engineer_review, coordinator_review = style_feedback_form()
 
 # Add a submit button with custom style
 submit_button_style = """
@@ -138,4 +122,5 @@ if submit_button:
     # Submit feedback and handle API request
     if complaint_id:
         submit_feedback(complaint_id, engineer_review, coordinator_review)
+
 
