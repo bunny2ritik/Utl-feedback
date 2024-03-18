@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import base64
 from textblob import TextBlob
+import binascii
 
 # Function to submit feedback and handle API request
 def submit_feedback(complaint_id, engineer_review, coordinator_review):
@@ -86,7 +87,7 @@ complaint_id_base64 = st.experimental_get_query_params().get('complaint_id', [''
 # Decode the Base64 encoded complaint ID
 try:
     complaint_id = base64.b64decode(complaint_id_base64).decode('utf-8')
-except (TypeError, UnicodeDecodeError, binascii.Error):
+except (TypeError, UnicodeDecodeError, binascii.Error) as e:
     st.error("Invalid complaint ID.")
 
 # Style the feedback form
@@ -136,3 +137,4 @@ if submit_button:
     # Submit feedback and handle API request
     if complaint_id:
         submit_feedback(complaint_id, engineer_review, coordinator_review)
+
