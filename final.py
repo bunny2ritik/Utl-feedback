@@ -103,7 +103,7 @@ def style_feedback_form(complaint_id):
     return engineer_review, coordinator_review
 
 # Read the complaint ID from URL query parameters
-complaint_id = st.url_query_params().get('complaint_id')
+complaint_id = st.experimental_get_query_params().get('complaint_id')
 
 # Ensure complaint ID is not empty or None
 if not complaint_id:
@@ -120,6 +120,7 @@ submit_button = st.button('Submit')
 if submit_button:
     # Submit feedback and handle API request
     submit_feedback(complaint_id, engineer_review, coordinator_review)
+
 
 
 
