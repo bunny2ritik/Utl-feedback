@@ -1,10 +1,10 @@
+RITIK
 import streamlit as st
 import requests
 from textblob import TextBlob
-import base64
 
 # Function to submit feedback and handle API request
-def submit_feedback(complaint_id, engineer_review, coordinator_review, additional_data):
+def submit_feedback(complaint_id, engineer_review, coordinator_review):
     # Perform sentiment analysis for engineer review
     engineer_sentiment = perform_sentiment_analysis(engineer_review)
 
@@ -15,24 +15,13 @@ def submit_feedback(complaint_id, engineer_review, coordinator_review, additiona
     engineer_rating = derive_rating(engineer_sentiment)
     coordinator_rating = derive_rating(coordinator_sentiment)
 
-    # Combine additional data with the feedback data
-    feedback_payload = {
-        'complaint_id': complaint_id,
-        'engineer_feedback': {
-            'feedback': engineer_review,
-            'rating': engineer_rating,
-            'sentiment': engineer_sentiment
-        },
-        'coordinator_feedback': {
-            'feedback': coordinator_review,
-            'rating': coordinator_rating,
-            'sentiment': coordinator_sentiment
-        },
-        'additional_data': additional_data
-    }
-
     # Save the feedback to the API database
-    save_feedback_to_api(feedback_payload)
+    save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordinator_review, coordinator_rating, engineer_sentiment, coordinator_sentiment)
+    
+    # Display sentiment analysis results
+    st.header('Sentiment Analysis Results:')
+    st.write('Service Engineer Review Sentiment:', engineer_sentiment)
+    st.write('Service Executive Coordinator Review Sentiment:', coordinator_sentiment)
 
 # Function to perform sentiment analysis using TextBlob
 def perform_sentiment_analysis(review_text):
@@ -61,12 +50,29 @@ def derive_rating(sentiment_score):
         return 5.0
 
 # Function to save feedback data to API
-def save_feedback_to_api(feedback_payload):
+def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordinator_review, coordinator_rating, engineer_sentiment, coordinator_sentiment):
+    # Feedback data including complaint ID
+    feedback_data = {
+        'apiKey': 'RnVqaXlhbWEgUG93ZXIgU3lzdGVtcyBQdnQuIEx0ZC4=.$2y$10$sd9eji2d1mc8i1nd1xsalefYiroiLa46/X0U9ihoGeOU7FaWDg30a.',
+        'complaint_id': complaint_id,
+        'engineer_feedback': {
+            'feedback': engineer_review,
+            'rating': engineer_rating,
+            'output': perform_sentiment_analysis(engineer_review)
+        },
+        'coordinator_feedback':  {
+            'complaint_id': complaint_id,
+            'feedback': coordinator_review,
+            'rating': coordinator_rating,
+            'output': perform_sentiment_analysis(coordinator_review)
+        }
+    }
+
     # API endpoint
     api_url = 'https://staging.utlsolar.net/tracker/production/public/utlmtlapis/getCustomerFeedback'
 
-    # Make a POST request to the API endpoint with the feedback payload
-    response = requests.post(api_url, json=feedback_payload)
+    # Make a POST request to the API endpoint
+    response = requests.post(api_url, json=feedback_data)
 
     # Check if the request was successful
     if response.status_code == 200:
@@ -74,17 +80,16 @@ def save_feedback_to_api(feedback_payload):
     else:
         st.error('Failed to submit feedback. Please try again later.')
 
-# Read the complaint ID from URL query parameters and decode it
-encoded_complaint_id = st.experimental_get_query_params().get('complaint_id', [''])[0]
-complaint_id = base64.urlsafe_b64decode(encoded_complaint_id).decode('utf-8')
+# Read the complaint ID from URL query parameters
+complaint_id = st.experimental_get_query_params().get('complaint_id', [''])[0]
 
 # Style the feedback form
-def style_feedback_form():
+def style_feedback_form(complaint_id):
     # Add logo with increased size
     logo_image = "https://github.com/bunny2ritik/Utl-feedback/blob/main/newlogo.png?raw=true"  # Path to your logo image
     st.image(logo_image, use_column_width=True, width=400)
     
-    # Display the title for the complaint ID
+    # Display the title for the complaint ID without quotation marks
     st.markdown(f"<h3 style='text-align: center;'>Feedback for Complaint ID : {complaint_id}</h3>", unsafe_allow_html=True)
 
     # Set title for service engineer section
@@ -101,19 +106,29 @@ def style_feedback_form():
 
     return engineer_review, coordinator_review
 
-# Additional data (you can customize this)
-additional_data = {
-    'customer_name': 'John Doe',
-    'contact_number': '123-456-7890'
-}
-
 # Style the feedback form
-engineer_review, coordinator_review = style_feedback_form()
+engineer_review, coordinator_review = style_feedback_form(complaint_id)
+
+# Add a submit button with custom style
+submit_button_style = """
+    <style>
+        div.stButton > button:first-child {
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+    </style>
+"""
+
+# Inject the submit button style into the Streamlit app
+st.markdown(submit_button_style, unsafe_allow_html=True)
 
 # Add a submit button
 submit_button = st.button('Submit')
 
 # Submit feedback and handle API request
 if submit_button:
-    submit_feedback(complaint_id, engineer_review, coordinator_review, additional_data)
+    # Submit feedback and handle API request
+    if complaint_id:
+        submit_feedback(complaint_id, engineer_review, coordinator_review)
+
 
