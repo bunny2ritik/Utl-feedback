@@ -94,14 +94,14 @@ def style_feedback_form(complaint_id):
     # Set title for service engineer section
     st.header('Service Engineer ')
 
-    # Add text area for engineer feedback
-    engineer_review = st.text_area('Write your feedback for the Service Engineer here:')
+    # Add text area for engineer feedback with a smaller height
+    engineer_review = st.text_area('Write your feedback for the Service Engineer here:', height=30)
 
     # Set title for service coordinator section
     st.header('Service Executive Coordinator' )
 
-    # Add text area for coordinator feedback
-    coordinator_review = st.text_area('Write your feedback for the Service Executive Coordinator here:')
+    # Add text area for coordinator feedback with a smaller height
+    coordinator_review = st.text_area('Write your feedback for the Service Executive Coordinator here:', height=30)
 
     return engineer_review, coordinator_review
 
@@ -129,3 +129,4 @@ if submit_button:
     # Submit feedback and handle API request
     if complaint_id:
         submit_feedback(complaint_id, engineer_review, coordinator_review)
+
