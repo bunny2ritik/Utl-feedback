@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
-from textblob import TextBlob
 import base64
+from textblob import TextBlob
 
 # Function to submit feedback and handle API request
 def submit_feedback(complaint_id, engineer_review, coordinator_review):
@@ -80,14 +80,14 @@ def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordin
     else:
         st.error('Failed to submit feedback. Please try again later.')
 
-# Read the complaint ID from URL query parameters
-encoded_complaint_id = st.experimental_get_query_params().get('complaint_id', [''])[0]
+# Get Base64 encoded complaint ID from user input
+complaint_id_base64 = st.text_input("Enter Base64 Encoded Complaint ID:")
 
-# Decode the complaint ID if it exists
-if encoded_complaint_id:
-    complaint_id = base64.urlsafe_b64decode(encoded_complaint_id).decode('utf-8')
-else:
-    complaint_id = None
+# Decode the Base64 encoded complaint ID
+try:
+    complaint_id = base64.b64decode(complaint_id_base64).decode('utf-8')
+except (TypeError, UnicodeDecodeError, binascii.Error):
+    complaint_id = ""
 
 # Style the feedback form
 def style_feedback_form(complaint_id):
@@ -136,6 +136,7 @@ if submit_button:
     # Submit feedback and handle API request
     if complaint_id:
         submit_feedback(complaint_id, engineer_review, coordinator_review)
+
 
 
 
