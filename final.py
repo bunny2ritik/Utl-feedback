@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 from textblob import TextBlob
+import base64
 
 # Function to submit feedback and handle API request
 def submit_feedback(complaint_id, engineer_review, coordinator_review):
@@ -52,7 +53,7 @@ def derive_rating(sentiment_score):
 def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordinator_review, coordinator_rating, engineer_sentiment, coordinator_sentiment):
     # Feedback data including complaint ID
     feedback_data = {
-        'apiKey': 'RnVqaXlhbWEgUG93ZXIgU3lzdGVtcyBQdnQuIEx0ZC4=.$2y$10$sd9eji2d1mc8i1nd1xsalefYiroiLa46/X0U9ihoGeOU7FaWDg30a.',
+        'apiKey': 'Your_API_Key_Here',
         'complaint_id': complaint_id,
         'engineer_feedback': {
             'feedback': engineer_review,
@@ -79,11 +80,24 @@ def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordin
     else:
         st.error('Failed to submit feedback. Please try again later.')
 
-# Get complaint ID from user input
-complaint_id = st.text_input("Enter your Complaint ID:")
+# Read the complaint ID from URL query parameters
+encoded_complaint_id = st.experimental_get_query_params().get('complaint_id', [''])[0]
+
+# Decode the complaint ID if it exists
+if encoded_complaint_id:
+    complaint_id = base64.urlsafe_b64decode(encoded_complaint_id).decode('utf-8')
+else:
+    complaint_id = None
 
 # Style the feedback form
-def style_feedback_form():
+def style_feedback_form(complaint_id):
+    # Add logo with increased size
+    logo_image = "https://github.com/bunny2ritik/Utl-feedback/blob/main/newlogo.png?raw=true"  # Path to your logo image
+    st.image(logo_image, use_column_width=True, width=400)
+    
+    # Display the title for the complaint ID without quotation marks
+    st.markdown(f"<h3 style='text-align: center;'>Feedback for Complaint ID : {complaint_id}</h3>", unsafe_allow_html=True)
+
     # Set title for service engineer section
     st.header('Service Engineer ')
 
@@ -99,7 +113,7 @@ def style_feedback_form():
     return engineer_review, coordinator_review
 
 # Style the feedback form
-engineer_review, coordinator_review = style_feedback_form()
+engineer_review, coordinator_review = style_feedback_form(complaint_id)
 
 # Add a submit button with custom style
 submit_button_style = """
@@ -122,5 +136,6 @@ if submit_button:
     # Submit feedback and handle API request
     if complaint_id:
         submit_feedback(complaint_id, engineer_review, coordinator_review)
+
 
 
