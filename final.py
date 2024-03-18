@@ -84,7 +84,10 @@ def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordin
 complaint_id_base64 = st.experimental_get_query_params().get('complaint_id', [''])[0]
 
 # Decode the Base64 encoded complaint ID
-complaint_id = base64.b64decode(complaint_id_base64).decode('utf-8')
+try:
+    complaint_id = base64.b64decode(complaint_id_base64).decode('utf-8')
+except (TypeError, UnicodeDecodeError, binascii.Error):
+    st.error("Invalid complaint ID.")
 
 # Style the feedback form
 def style_feedback_form(complaint_id):
