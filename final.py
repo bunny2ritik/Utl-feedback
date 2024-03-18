@@ -82,15 +82,21 @@ def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordin
         st.error('Failed to submit feedback. Please try again later.')
 
 # Read the URL from URL query parameters
-url = st.experimental_get_query_params().get('url', [''])[0]
+url = st.query_params.get('url', '')
 
 # Function to decode the URL parameter and extract the complaint ID
 def extract_complaint_id(url):
     parsed_url = urlparse(url)
     query_params = parse_qs(parsed_url.query)
     encoded_param = query_params.get('complaint_id', [''])[0]
-    decoded_param = base64.b64decode(encoded_param).decode('utf-8')
-    complaint_id = decoded_param.split('=')[1]
+    try:
+        decoded_param = base64.b64decode(encoded_param).decode('utf-8')
+        complaint_id = decoded_param.split('=')[1]
+    except IndexError:
+        print("Error: Unable to extract complaint ID from URL parameter.")
+        print("Encoded Param:", encoded_param)
+        print("Decoded Param:", decoded_param)
+        return None
     return complaint_id
 
 # Extract the complaint ID from the URL
@@ -143,6 +149,7 @@ if submit_button:
     # Submit feedback and handle API request
     if complaint_id:
         submit_feedback(complaint_id, engineer_review, coordinator_review)
+
 
 
 
