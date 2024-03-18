@@ -87,6 +87,7 @@ complaint_id_base64 = st.experimental_get_query_params().get('complaint_id', [''
 # Decode the Base64 encoded complaint ID
 try:
     complaint_id = base64.b64decode(complaint_id_base64).decode('utf-8')
+    print("Decoded Complaint ID:", complaint_id)  # Debugging statement
 except (TypeError, UnicodeDecodeError, binascii.Error) as e:
     st.error("Invalid complaint ID.")
 
@@ -137,3 +138,4 @@ if submit_button:
     # Submit feedback and handle API request
     if complaint_id:
         submit_feedback(complaint_id, engineer_review, coordinator_review)
+
