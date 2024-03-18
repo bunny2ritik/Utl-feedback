@@ -85,7 +85,7 @@ complaint_id_encoded = st.experimental_get_query_params().get('complaint_id', ['
 
 # Decode the complaint ID from base64 after removing "complaint_id="
 try:
-    complaint_id = base64.b64decode(complaint_id_encoded[len("complaint_id="):]).decode('utf-8')
+    complaint_id_decoded = base64.b64decode(complaint_id_encoded[len("complaint_id="):]).decode('utf-8')
 except Exception as e:
     st.error("Error decoding complaint ID: {}".format(e))
     st.stop()
@@ -114,7 +114,7 @@ def style_feedback_form(complaint_id):
     return engineer_review, coordinator_review
 
 # Style the feedback form
-engineer_review, coordinator_review = style_feedback_form(complaint_id)
+engineer_review, coordinator_review = style_feedback_form(complaint_id_decoded)
 
 # Add a submit button with custom style
 submit_button_style = """
@@ -135,5 +135,6 @@ submit_button = st.button('Submit')
 # Submit feedback and handle API request
 if submit_button:
     # Submit feedback and handle API request
-    if complaint_id:
-        submit_feedback(complaint_id, engineer_review, coordinator_review)
+    if complaint_id_decoded:
+        submit_feedback(complaint_id_decoded, engineer_review, coordinator_review)
+
