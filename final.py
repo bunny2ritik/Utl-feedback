@@ -87,7 +87,7 @@ complaint_id_encoded = query_params.get('complaint_id', [''])[0]
 # Decode the complaint ID from base64
 try:
     complaint_id_decoded = base64.b64decode(complaint_id_encoded).decode('utf-8')
-    complaint_id_display = "complaint_id=" + complaint_id_decoded
+    complaint_id_display = "complaint id: " + complaint_id_decoded
 except Exception as e:
     st.error("Error decoding complaint ID: {}".format(e))
     st.stop()
