@@ -1,4 +1,4 @@
-mport streamlit as st
+import streamlit as st
 import requests
 from textblob import TextBlob
 import base64
