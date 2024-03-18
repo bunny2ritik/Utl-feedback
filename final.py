@@ -1,4 +1,4 @@
-RITIK
+
 import streamlit as st
 import requests
 from textblob import TextBlob
