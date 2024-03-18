@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import base64
 from textblob import TextBlob
 
 # Function to submit feedback and handle API request
@@ -80,7 +81,10 @@ def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordin
         st.error('Failed to submit feedback. Please try again later.')
 
 # Read the complaint ID from URL query parameters
-complaint_id = st.experimental_get_query_params().get('complaint_id', [''])[0]
+complaint_id_base64 = st.experimental_get_query_params().get('complaint_id', [''])[0]
+
+# Decode the Base64 encoded complaint ID
+complaint_id = base64.b64decode(complaint_id_base64).decode('utf-8')
 
 # Style the feedback form
 def style_feedback_form(complaint_id):
@@ -94,14 +98,14 @@ def style_feedback_form(complaint_id):
     # Set title for service engineer section
     st.header('Service Engineer ')
 
-    # Add text area for engineer feedback with a smaller height
-    engineer_review = st.text_area('Write your feedback for the Service Engineer here:', height=30)
+    # Add text area for engineer feedback
+    engineer_review = st.text_area('Write your feedback for the Service Engineer here:')
 
     # Set title for service coordinator section
     st.header('Service Executive Coordinator' )
 
-    # Add text area for coordinator feedback with a smaller height
-    coordinator_review = st.text_area('Write your feedback for the Service Executive Coordinator here:', height=30)
+    # Add text area for coordinator feedback
+    coordinator_review = st.text_area('Write your feedback for the Service Executive Coordinator here:')
 
     return engineer_review, coordinator_review
 
@@ -129,4 +133,3 @@ if submit_button:
     # Submit feedback and handle API request
     if complaint_id:
         submit_feedback(complaint_id, engineer_review, coordinator_review)
-
