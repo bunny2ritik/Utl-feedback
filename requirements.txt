@@ -3,7 +3,4 @@
  TextBlob
 st
 textblob
- urllib.parse 
-urlparse 
-parse_qs
- base64
+ 
