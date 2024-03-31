@@ -3,6 +3,20 @@ import requests
 from textblob import TextBlob
 import base64
 
+# Function to decode the complaint ID from the URL query parameters
+def decode_complaint_id_from_url(url_query):
+    if url_query:
+        complaint_id_encoded = url_query.get('q', [''])[0]
+        if complaint_id_encoded:
+            try:
+                complaint_id_decoded = base64.b64decode(complaint_id_encoded).decode('utf-8')
+                return complaint_id_decoded
+            except Exception as e:
+                st.error("Error decoding complaint ID: {}".format(e))
+                st.stop()
+    st.error("Complaint ID not found in URL query parameters.")
+    st.stop()
+
 # Function to submit feedback and handle API request
 def submit_feedback(complaint_id, engineer_review, coordinator_review):
     # Perform sentiment analysis for engineer review
@@ -80,15 +94,11 @@ def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordin
     else:
         st.error('Failed to submit feedback. Please try again later.')
 
-# Read the complaint ID from URL query parameters
-complaint_id_encoded = st.experimental_get_query_params().get('complaint_id', [''])[0]
+# Read the URL query parameters
+url_query = st.experimental_get_query_params()
 
-# Decode the complaint ID from base64
-try:
-    complaint_id_decoded = base64.b64decode(complaint_id_encoded).decode('utf-8')
-except Exception as e:
-    st.error("Error decoding complaint ID: {}".format(e))
-    st.stop()
+# Decode the complaint ID from the URL query parameters
+complaint_id_decoded = decode_complaint_id_from_url(url_query)
 
 # Style the feedback form
 def style_feedback_form(complaint_id):
