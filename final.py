@@ -72,13 +72,13 @@ def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordin
         'engineer_feedback': {
             'feedback': engineer_review,
             'rating': engineer_rating,
-            'output': perform_sentiment_analysis(engineer_review)
+            'output': engineer_sentiment
         },
-        'coordinator_feedback':  {
+        'coordinator_feedback': {
             'complaint_id': complaint_id,
             'feedback': coordinator_review,
             'rating': coordinator_rating,
-            'output': perform_sentiment_analysis(coordinator_review)
+            'output': coordinator_sentiment
         }
     }
 
@@ -94,29 +94,29 @@ def save_feedback_to_api(complaint_id, engineer_review, engineer_rating, coordin
     else:
         st.error('Failed to submit feedback. Please try again later.')
 
-# Read the URL query parameters
-url_query = st.experimental_get_query_params()
+# Read the URL query parameters using st.query_params
+url_query = st.query_params
 
 # Decode the complaint ID from the URL query parameters
 complaint_id_decoded = decode_complaint_id_from_url(url_query)
 
 # Style the feedback form
 def style_feedback_form(complaint_id):
-    # Add logo with increased size
-    logo_image = "https://github.com/bunny2ritik/Utl-feedback/blob/main/newlogo.png?raw=true"  # Path to your logo image
+    # Add logo
+    logo_image = "https://github.com/bunny2ritik/Utl-feedback/blob/main/newlogo.png?raw=true"
     st.image(logo_image, use_column_width=True, width=400)
     
     # Display the title for the complaint ID without quotation marks
     st.markdown(f"<h3 style='text-align: center;'>Feedback for Complaint ID : {complaint_id}</h3>", unsafe_allow_html=True)
 
     # Set title for service engineer section
-    st.header('Service Engineer ')
+    st.header('Service Engineer')
 
     # Add text area for engineer feedback
     engineer_review = st.text_area('Write your feedback for the Service Engineer here:')
 
     # Set title for service coordinator section
-    st.header('Service Executive Coordinator' )
+    st.header('Service Executive Coordinator')
 
     # Add text area for coordinator feedback
     coordinator_review = st.text_area('Write your feedback for the Service Executive Coordinator here:')
