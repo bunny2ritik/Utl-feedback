@@ -2,7 +2,6 @@ import streamlit as st
 import base64
 import requests
 from textblob import TextBlob
-st.set_page_config(menu_items={'about': None, 'report_to_github': None, 'get_help': None})
 
 # Function to decode the complaint ID from the URL query parameters
 def decode_complaint_id_from_url():
