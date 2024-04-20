@@ -2,9 +2,6 @@ import streamlit as st
 import base64
 import requests
 from textblob import TextBlob
-hide_st_style = “”"
-
-
 
 # Function to decode the complaint ID from the URL query parameters
 def decode_complaint_id_from_url():
