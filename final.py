@@ -117,6 +117,16 @@ def main():
 
     # Ensure complaint_id_decoded is not None before proceeding
     if complaint_id_decoded:
+        # Hide Streamlit menu and GitHub icon
+        st.markdown(
+            """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
         # Style the feedback form
         engineer_review, coordinator_review = style_feedback_form(complaint_id_decoded)
         
