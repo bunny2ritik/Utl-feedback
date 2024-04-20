@@ -3,11 +3,14 @@ import base64
 import requests
 from textblob import TextBlob
 
-# Add custom CSS to hide the GitHub icon
+# Add custom CSS to hide the Streamlit badge
 hide_streamlit_style = """
             <style>
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
+            .element-container:nth-last-child(1) {
+                visibility: hidden;
+            }
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
@@ -139,3 +142,4 @@ def main():
 # Run the Streamlit app
 if __name__ == "__main__":
     main()
+
