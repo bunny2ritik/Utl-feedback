@@ -10,20 +10,6 @@ hide_streamlit_style = """
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
-footer {
-	
-	visibility: hidden;
-	
-	}
-footer:after {
-	content:'goodbye'; 
-	visibility: visible;
-	display: block;
-	position: relative;
-	#background-color: red;
-	padding: 5px;
-	top: 2px;
-}
 
 # Function to decode the complaint ID from the URL query parameters
 def decode_complaint_id_from_url():
