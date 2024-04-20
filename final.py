@@ -94,7 +94,7 @@ def submit_feedback(complaint_id, engineer_review, coordinator_review):
 # Style and layout of the feedback form
 def style_feedback_form(complaint_id):
     # Add logo with increased size
-    logo_image = "https://i.postimg.cc/CLdgK06Z/temp-Image3gi-TSg.avif"  # Path to your logo image
+    logo_image = "https://postimg.cc/w7KPWCzH"  # Path to your logo image
     st.image(logo_image, use_column_width=True, width=400)
 
     # Display the title for the complaint ID
