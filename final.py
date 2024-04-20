@@ -3,6 +3,24 @@ import base64
 import requests
 from textblob import TextBlob
 
+# Add custom CSS to hide the Streamlit menu, footer, and GitHub icon
+hide_elements_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            div.stButton>button {
+                visibility: hidden;
+            }
+            div.stDocument > div.stApp > div:nth-child(1) > div:nth-child(2) > div {
+                visibility: hidden;
+            }
+            a[href^="https://github.com/streamlit/"][class^="stAppGotoGithubButton"] {
+                display: none !important;
+            }
+            </style>
+            """
+st.markdown(hide_elements_style, unsafe_allow_html=True) 
+
 # Function to decode the complaint ID from the URL query parameters
 def decode_complaint_id_from_url():
     # Get query parameters from the URL
