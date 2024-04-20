@@ -2,6 +2,14 @@ import streamlit as st
 import base64
 import requests
 from textblob import TextBlob
+# Add custom CSS to hide the GitHub icon
+hide_github_icon = """
+#GithubIcon {
+  visibility: hidden;
+}
+"""
+st.markdown(hide_github_icon, unsafe_allow_html=True)
+
 
 # Function to decode the complaint ID from the URL query parameters
 def decode_complaint_id_from_url():
