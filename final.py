@@ -3,15 +3,14 @@ import base64
 import requests
 from textblob import TextBlob
 
-# Add custom CSS to hide elements at the top right corner
-hide_top_right_elements_style = """
-<style>
-#MainMenu { visibility: hidden; }
-footer { visibility: hidden; }
-.streamlit-badge_container { visibility: hidden; }
-</style>
-"""
-st.markdown(hide_top_right_elements_style, unsafe_allow_html=True)
+# Add custom CSS to hide the GitHub icon
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 
 # Function to decode the complaint ID from the URL query parameters
 def decode_complaint_id_from_url():
@@ -103,6 +102,10 @@ def submit_feedback(complaint_id, engineer_review, coordinator_review):
 
 # Style and layout of the feedback form
 def style_feedback_form(complaint_id):
+    # Add logo with increased size
+    logo_image = "https://imagizer.imageshack.com/img924/4894/eqE4eh.png"  # Path to your logo image
+    st.image(logo_image, use_column_width=True, width=400)
+
     # Display the title for the complaint ID
     st.markdown(f"<h3 style='text-align: center;'>Feedback for Complaint ID: {complaint_id}</h3>", unsafe_allow_html=True)
 
