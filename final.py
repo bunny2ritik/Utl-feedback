@@ -3,7 +3,7 @@ import base64
 import requests
 from textblob import TextBlob
 
-# Add custom CSS to hide the Streamlit badge
+# Add custom CSS to hide the Streamlit badge and GitHub icon
 hide_elements_style = """
             <style>
             #MainMenu {visibility: hidden;}
@@ -13,6 +13,9 @@ hide_elements_style = """
             }
             div.stDocument > div.stApp > div:nth-child(1) > div:nth-child(2) > div {
                 visibility: hidden;
+            }
+            a[href^="https://github.com/streamlit/"][class^="stAppGotoGithubButton"] {
+                display: none !important;
             }
             </style>
             """
