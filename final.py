@@ -2,6 +2,7 @@ import streamlit as st
 import base64
 import requests
 from textblob import TextBlob
+
 # Add custom CSS to hide the GitHub icon
 hide_streamlit_style = """
             <style>
@@ -134,6 +135,32 @@ def main():
         # If the submit button is clicked, handle the submission
         if submit_button:
             submit_feedback(complaint_id_decoded, engineer_review, coordinator_review)
+
+# GitHub ribbon and logo
+def github_ribbon(repo_url):
+    st.markdown(
+        f"""
+        <a id="github-ribbon" href="{repo_url}" style="position: absolute; top: 0; right: 0; z-index: 999;">
+            <img style="border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
+                 alt="Fork me on GitHub">
+        </a>
+        """,
+        unsafe_allow_html=True
+    )
+
+def github_logo(logo_url):
+    st.markdown(
+        f"""
+        <a id="github-logo" href="https://github.com/" style="position: absolute; top: 0; left: 0; z-index: 999;">
+            <img src="{logo_url}" alt="GitHub Logo" style="width: 100px;">
+        </a>
+        """,
+        unsafe_allow_html=True
+    )
+
+# Display GitHub ribbon and logo
+github_ribbon("https://github.com/your_username/your_repo")
+github_logo("https://github.githubassets.com/images/modules/logos_page/Octocat.png")
 
 # Run the Streamlit app
 if __name__ == "__main__":
