@@ -3,13 +3,13 @@ import base64
 import requests
 from textblob import TextBlob
 
-# Add custom CSS to hide the Streamlit menu, footer, and GitHub icon
+# Add custom CSS to hide Streamlit elements except the submit button
 hide_elements_style = """
             <style>
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             div.stButton>button {
-                visibility: hidden;
+                visibility: visible !important;
             }
             div.stDocument > div.stApp > div:nth-child(1) > div:nth-child(2) > div {
                 visibility: hidden;
