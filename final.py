@@ -8,7 +8,7 @@ hide_streamlit_style = """
             <style>
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
-            .element-container:nth-last-child(1) {
+            div.stButton>button {
                 visibility: hidden;
             }
             </style>
@@ -105,10 +105,6 @@ def submit_feedback(complaint_id, engineer_review, coordinator_review):
 
 # Style and layout of the feedback form
 def style_feedback_form(complaint_id):
-    # Add logo with increased size
-    logo_image = "https://imagizer.imageshack.com/img924/4894/eqE4eh.png"  # Path to your logo image
-    st.image(logo_image, use_column_width=True, width=400)
-
     # Display the title for the complaint ID
     st.markdown(f"<h3 style='text-align: center;'>Feedback for Complaint ID: {complaint_id}</h3>", unsafe_allow_html=True)
 
@@ -142,3 +138,4 @@ def main():
 # Run the Streamlit app
 if __name__ == "__main__":
     main()
+
