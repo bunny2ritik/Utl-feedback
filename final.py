@@ -3,14 +3,15 @@ import base64
 import requests
 from textblob import TextBlob
 
-# Add custom CSS to hide the GitHub icon
-hide_streamlit_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            </style>
-            """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+# Add custom CSS to hide elements at the top right corner
+hide_top_right_elements_style = """
+<style>
+#MainMenu { visibility: hidden; }
+footer { visibility: hidden; }
+.streamlit-badge_container { visibility: hidden; }
+</style>
+"""
+st.markdown(hide_top_right_elements_style, unsafe_allow_html=True)
 
 # Function to decode the complaint ID from the URL query parameters
 def decode_complaint_id_from_url():
@@ -102,10 +103,6 @@ def submit_feedback(complaint_id, engineer_review, coordinator_review):
 
 # Style and layout of the feedback form
 def style_feedback_form(complaint_id):
-    # Add logo with increased size
-    logo_image = "https://imagizer.imageshack.com/img924/4894/eqE4eh.png"  # Path to your logo image
-    st.image(logo_image, use_column_width=True, width=400)
-
     # Display the title for the complaint ID
     st.markdown(f"<h3 style='text-align: center;'>Feedback for Complaint ID: {complaint_id}</h3>", unsafe_allow_html=True)
 
@@ -135,32 +132,6 @@ def main():
         # If the submit button is clicked, handle the submission
         if submit_button:
             submit_feedback(complaint_id_decoded, engineer_review, coordinator_review)
-
-# GitHub ribbon and logo
-def github_ribbon(repo_url):
-    st.markdown(
-        f"""
-        <a id="github-ribbon" href="{repo_url}" style="position: absolute; top: 0; right: 0; z-index: 999;">
-            <img style="border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
-                 alt="Fork me on GitHub">
-        </a>
-        """,
-        unsafe_allow_html=True
-    )
-
-def github_logo(logo_url):
-    st.markdown(
-        f"""
-        <a id="github-logo" href="https://github.com/" style="position: absolute; top: 0; left: 0; z-index: 999;">
-            <img src="{logo_url}" alt="GitHub Logo" style="width: 100px;">
-        </a>
-        """,
-        unsafe_allow_html=True
-    )
-
-# Display GitHub ribbon and logo
-github_ribbon("https://github.com/your_username/your_repo")
-github_logo("https://github.githubassets.com/images/modules/logos_page/Octocat.png")
 
 # Run the Streamlit app
 if __name__ == "__main__":
