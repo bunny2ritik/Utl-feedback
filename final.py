@@ -3,24 +3,6 @@ import base64
 import requests
 from textblob import TextBlob
 
-# Add custom CSS to hide the Streamlit badge and GitHub icon
-hide_elements_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            div.stButton>button {
-                visibility: hidden;
-            }
-            div.stDocument > div.stApp > div:nth-child(1) > div:nth-child(2) > div {
-                visibility: hidden;
-            }
-            a[href^="https://github.com/streamlit/"][class^="stAppGotoGithubButton"] {
-                display: none !important;
-            }
-            </style>
-            """
-st.markdown(hide_elements_style, unsafe_allow_html=True) 
-
 # Function to decode the complaint ID from the URL query parameters
 def decode_complaint_id_from_url():
     # Get query parameters from the URL
@@ -112,7 +94,7 @@ def submit_feedback(complaint_id, engineer_review, coordinator_review):
 # Style and layout of the feedback form
 def style_feedback_form(complaint_id):
     # Add logo with increased size
-    logo_image = "https://imagizer.imageshack.com/img924/4894/eqE4eh.png"  # Path to your logo image
+    logo_image = "https://github.com/bunny2ritik/Utl-feedback/blob/main/newlogo.png?raw=true"  # Path to your logo image
     st.image(logo_image, use_column_width=True, width=400)
 
     # Display the title for the complaint ID
