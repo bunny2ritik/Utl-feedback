@@ -106,6 +106,10 @@ def submit_feedback(complaint_id, engineer_review, coordinator_review):
     # Check response and provide feedback to user
     if response.status_code == 200:
         st.success('Feedback submitted successfully!')
+        # Show sentiment analysis results
+        st.write('### Sentiment Analysis Results:')
+        st.write(f'- **Engineer Sentiment:** {engineer_sentiment}')
+        st.write(f'- **Coordinator Sentiment:** {coordinator_sentiment}')
     else:
         st.error('Failed to submit feedback. Please try again later.')
 
@@ -122,17 +126,9 @@ def style_feedback_form(complaint_id):
     st.header('Service Engineer')
     engineer_review = st.text_area('Write your feedback for the Service Engineer here:')
 
-    # Perform sentiment analysis for engineer review
-    engineer_sentiment = perform_sentiment_analysis(engineer_review)
-    st.markdown(f"**Engineer Sentiment:** {engineer_sentiment}")
-
     # Coordinator review input
     st.header('Service Executive Coordinator')
     coordinator_review = st.text_area('Write your feedback for the Service Executive Coordinator here:')
-
-    # Perform sentiment analysis for coordinator review
-    coordinator_sentiment = perform_sentiment_analysis(coordinator_review)
-    st.markdown(f"**Coordinator Sentiment:** {coordinator_sentiment}")
 
     return engineer_review, coordinator_review
 
