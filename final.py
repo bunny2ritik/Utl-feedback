@@ -108,8 +108,8 @@ def submit_feedback(complaint_id, engineer_review, coordinator_review):
         st.success('Feedback submitted successfully!')
         # Show sentiment analysis results
         st.write('### Sentiment Analysis Results:')
-        st.write(f'- **Engineer Sentiment:** {engineer_sentiment}')
-        st.write(f'- **Coordinator Sentiment:** {coordinator_sentiment}')
+        st.write(f'- **Service Engineer Sentiment:** {engineer_sentiment}')
+        st.write(f'- **Service Executive Coordinator Sentiment:** {coordinator_sentiment}')
     else:
         st.error('Failed to submit feedback. Please try again later.')
 
