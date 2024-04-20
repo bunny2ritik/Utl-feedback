@@ -4,13 +4,7 @@ import requests
 from textblob import TextBlob
 hide_st_style = “”"
 
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header {visibility: hidden;}
 
-“”"
-st.markdown(hide_st_style, unsafe_allow_html=True)
-#--------------------------------------------------------------------
 
 # Function to decode the complaint ID from the URL query parameters
 def decode_complaint_id_from_url():
