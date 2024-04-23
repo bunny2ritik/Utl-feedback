@@ -105,7 +105,7 @@ def submit_feedback(complaint_id, engineer_review, coordinator_review):
     }
 
     # API endpoint
-    api_url = 'https://staging.utlsolar.net/tracker/production/public/utlmtlapis/getCustomerFeedback'
+    api_url = 'https://tracker.utlsolar.net/tracker/production/public/utlmtlapis/getCustomerFeedback'
 
     # Send POST request to the API
     response = requests.post(api_url, json=feedback_data)
