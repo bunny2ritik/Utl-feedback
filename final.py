@@ -22,9 +22,6 @@ hide_elements_style = """
 st.markdown(hide_elements_style, unsafe_allow_html=True) 
 
 # Function to decode the complaint ID from the URL query parameters
-# Function to decode the complaint ID from the URL query parameters
-
-
 def decode_complaint_id_from_url():
     # Get query parameters from the URL
     query_params = st.experimental_get_query_params()
@@ -52,6 +49,7 @@ def decode_complaint_id_from_url():
     # If 'q' parameter is not found, or if there is an error decoding the ID
     st.error("Complaint ID not found in URL query parameters.")
     return None
+
 # Function to perform sentiment analysis using TextBlob
 def perform_sentiment_analysis(review_text):
     sentiment_analysis = TextBlob(review_text).sentiment
@@ -104,7 +102,7 @@ def submit_feedback(complaint_id, engineer_review, coordinator_review):
         }
     }
 
-    # API endpoint
+    # API endpoint for production
     api_url = 'https://tracker.utlsolar.net/tracker/production/public/utlmtlapis/getCustomerFeedback'
 
     # Send POST request to the API
