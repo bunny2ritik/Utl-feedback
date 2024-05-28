@@ -22,33 +22,32 @@ hide_elements_style = """
 st.markdown(hide_elements_style, unsafe_allow_html=True) 
 
 # Function to decode the complaint ID from the URL query parameters
+# Function to decode the complaint ID from the URL query parameters
 def decode_complaint_id_from_url():
-    # Get query parameters from the URL
-    query_params = st.experimental_get_query_params()
+    # Decode complaint ID from the URL query parameters
+    encoded_complaint_id = st.query_params.get('q')
 
     # Access the 'q' parameter, if present
-    if 'q' in query_params:
-        # The 'q' parameter value is returned as a list, so we take the first element
-        encoded_complaint_id = query_params['q'][0]
-
+    if encoded_complaint_id:
         try:
             # Decode the base64-encoded string to obtain the original complaint ID
-            decoded_bytes = base64.b64decode(encoded_complaint_id)
-            complaint_id = decoded_bytes.decode('utf-8')
+            decoded_bytes = base64.b64decode(encoded_complaint_id.encode()).decode('utf-8')
 
             # Extract only the complaint ID value without the parameter name
-            if complaint_id.startswith('complaintId='):
-                complaint_id = complaint_id.replace('complaintId=', '')
+            if decoded_bytes.startswith('complaintId='):
+                complaint_id = decoded_bytes.replace('complaintId=', '')
+            else:
+                complaint_id = decoded_bytes
 
             return complaint_id
 
         except Exception as e:
-            st.error(f"Error decoding complaint ID: {e}")
-            return None
+            st.error("Error decoding complaint ID. Please check the URL.")
+            st.stop()
 
-    # If 'q' parameter is not found, or if there is an error decoding the ID
+    # If 'q' parameter is not found
     st.error("Complaint ID not found in URL query parameters.")
-    return None
+    st.stop()
 
 # Function to perform sentiment analysis using TextBlob
 def perform_sentiment_analysis(review_text):
